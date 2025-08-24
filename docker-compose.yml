@@ -1,0 +1,43 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:13.22-trixie
+    container_name: comments_db
+    env_file:
+      - .env
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - internal_net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d comments"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  comments-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: comments_api
+    env_file:
+      - .env
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - internal_net
+      - public_net
+    ports:
+      - "${API_PORT}:3000"
+
+volumes:
+  db_data:
+
+networks:
+  public_net:
+    driver: bridge
+  internal_net:
+    driver: bridge
+    internal: true

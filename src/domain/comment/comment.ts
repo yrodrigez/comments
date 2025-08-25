@@ -1,12 +1,10 @@
+import {type Comment, type CommentInput, type Source, type SourceInput} from "./types";
+
 export default function buildMakeComment({Id, md5, sanitize, makeSource}: {
     Id: { makeId: () => string, isValidId: (id: string) => boolean },
     md5: (input: string) => string,
     sanitize: (input: string) => string,
-    makeSource: (source: { ip: string, browser: string, referer?: string }) => {
-        getIp: () => string,
-        getBrowser: () => string,
-        getReferer: () => string | undefined
-    }
+    makeSource: (source: SourceInput) => Source
 }) {
 
     return function makeComment({
@@ -14,20 +12,12 @@ export default function buildMakeComment({Id, md5, sanitize, makeSource}: {
                                     author,
                                     source,
                                     modifiedOn = new Date(),
+                                    createdOn = new Date(),
                                     postId,
                                     published = false,
                                     replyToId,
                                     text
-                                }: {
-        id?: string,
-        author?: string,
-        source: { ip: string, browser: string, referer?: string },
-        modifiedOn?: Date,
-        postId: string,
-        published?: boolean,
-        replyToId?: string,
-        text: string
-    }) {
+                                }: CommentInput): Comment {
 
         if (!Id.isValidId(id)) {
             throw new Error('Invalid comment ID');
@@ -62,17 +52,18 @@ export default function buildMakeComment({Id, md5, sanitize, makeSource}: {
                 + (replyToId ?? '')
             )
         }
-
+        let hash: string;
         return Object.freeze({
             getId: () => id,
             getAuthor: () => author,
+            getCreatedOn: () => createdOn,
             getSource: () => validSource,
             getModifiedOn: () => modifiedOn,
             getPostId: () => postId,
             isPublished: () => published,
             getReplyToId: () => replyToId,
-            getText: (includeDeletedText = false) => author ? sanitizeText : (includeDeletedText ? deletedText : ''),
-            getHash: makeHash,
+            getText: (includeDeletedText = false) => author !== deletedAuthor ? sanitizeText : (includeDeletedText ? deletedText : ''),
+            getHash: () => hash || (hash = makeHash()),
             markAsDeleted: () => {
                 author = deletedAuthor;
                 text = deletedText;

@@ -1,5 +1,7 @@
+import {type SourceInput} from "@domain/comment/types";
+
 export default function buildMakeSource({isValidIp}: { isValidIp: (ip: string) => boolean }) {
-    return function makeSource({ip, browser, referer}: { ip: string, browser: string, referer?: string }) {
+    return function makeSource({ip, browser, referer}: SourceInput) {
         if (!isValidIp(ip)) {
             throw new Error('Invalid IP address');
         }

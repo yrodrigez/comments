@@ -39,11 +39,18 @@
     "noUnusedParameters": true,
     "exactOptionalPropertyTypes": true,
 
-    /* Module Resolution */
+
+    "baseUrl": "./src",
+    "paths": {
+      "@domain/*": ["domain/*"],
+      "@infrastructure/*": ["infrastructure/*"],
+      "@application/*": ["application/*"],
+      "@shared/*": ["shared/*"],
+      "@services/*": ["services/*"]
+    },
     "resolveJsonModule": true,
     "allowJs": false,
 
-    /* Advanced */
     "pretty": true,
     "incremental": true,
     "tsBuildInfoFile": "./dist/.tsbuildinfo"

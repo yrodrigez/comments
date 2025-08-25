@@ -1,5 +1,5 @@
 import {createHash} from "crypto";
-import Id from '../Id.js';
+import Id from '@shared/utils/id/id';
 import ipRegex from "ip-regex";
 import sanitizeHtml from "sanitize-html";
 import buildMakeComment from "./comment.js";

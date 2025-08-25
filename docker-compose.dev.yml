@@ -27,6 +27,7 @@ services:
       - .env
     volumes:
       - db_data:/var/lib/postgresql/data
+      - ./initdb:/docker-entrypoint-initdb.d:ro
     networks:
       - comments_net
     healthcheck:
@@ -34,6 +35,8 @@ services:
       interval: 5s
       timeout: 3s
       retries: 10
+    ports:
+      - "3001:5432"
 
 volumes:
   db_data:

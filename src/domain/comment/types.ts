@@ -1,0 +1,1 @@
+export type { Comment, CommentInput, CommentSource, CommentRecord } from "@shared/types";

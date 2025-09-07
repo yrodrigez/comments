@@ -24,7 +24,7 @@ export default {
     },
     moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json'],
     transformIgnorePatterns: [
-        'node_modules/(?!(.*\\.mjs$))'
+        'node_modules/(?!(.*\\.mjs$|ip-regex|sanitize-html))'
     ],
     collectCoverageFrom: [
         'src/**/*.ts',

@@ -3,15 +3,15 @@
     /* Language and Environment */
     "target": "ES2022",
     "lib": ["ES2022", "DOM"],
-    "module": "commonjs",
-    "moduleResolution": "node",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
 
     /* Emit */
     "outDir": "./dist",
     "rootDir": "./src",
     "removeComments": true,
-    "declaration": false,
-    "declarationMap": false,
+    "declaration": true,
+    "declarationMap": true,
     "sourceMap": true,
 
     /* Interop Constraints */
@@ -46,7 +46,8 @@
       "@infrastructure/*": ["infrastructure/*"],
       "@application/*": ["application/*"],
       "@shared/*": ["shared/*"],
-      "@services/*": ["services/*"]
+      "@services/*": ["services/*"],
+      "@api/*": ["api/*"]
     },
     "resolveJsonModule": true,
     "allowJs": false,
@@ -65,7 +66,7 @@
     "**/*.spec.ts"
   ],
   "ts-node": {
-    "esm": false,
+    "esm": true,
     "experimentalSpecifierResolution": "node"
   }
 }

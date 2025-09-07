@@ -1,13 +1,13 @@
-import {Pool} from 'pg';
-
+import { environment } from '@infrastructure/config/environment';
+import { Pool } from 'pg';
 
 export default function makeDatabase() {
     const pool = new Pool({
-        user: process.env.PGUSER,
-        host: process.env.PGHOST,
-        database: process.env.PGDATABASE,
-        password: process.env.PGPASSWORD,
-        port: process.env.PGPORT ? parseInt(process.env.PGPORT) : 5432,
+        user: environment.POSTGRES.USER,
+        host: environment.POSTGRES.HOST,
+        database: environment.POSTGRES.DB,
+        password: environment.POSTGRES.PASSWORD,
+        port: environment.POSTGRES.PORT,
     });
 
     return Object.freeze({
